@@ -1,0 +1,15 @@
+Computer Science flying start work
+2.1
+C = 6
+
+2.2
+x = 8
+
+2.3
+A = 9
+
+2.4
+G = 24
+
+2.5
+C = 39
