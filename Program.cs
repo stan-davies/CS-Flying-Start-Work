@@ -68,25 +68,14 @@ namespace temperatureConverter {
             }
         }
 
-        // function attempts to convert to an int, upon failure, returns null
-        public static int? intCheck(string? _num) {
-            int? returnVal;
-            try {
-                returnVal = Convert.ToInt32(_num);
-            } catch (Exception) {
-                returnVal = null;
-            }
-
-            return returnVal;
-        }
-
         // function outputs necessary text and then takes an input, all is run 3 times (lines 14, 26 & 29)
         public static int Inp(string _message, List<string> _options) {
-            int? returnVal = null;
+            int intNum = 0;
             bool valid = false;
             List<int> viable = new List<int>();
 
             while (valid == false) {
+                // this loop outputs your options but also creates a new array containing the options numbers which is what you input
                 int i = 1;
                 Console.WriteLine(_message);
                 foreach (string option in _options) {
@@ -95,17 +84,21 @@ namespace temperatureConverter {
                     i++;
                 }
 
-                returnVal = intCheck(Console.ReadLine());
-                // somewhat confusing logic here, the first statement is basic, the second considers if the input is one of the options but only does so when there are options 
-                if ((returnVal != null) && ((_options.Count == 0) || (viable.Contains(returnVal.Value)))) {
-                    break; 
+                string? input  = Console.ReadLine();
+                // checks if its null or contains not digit characters
+                if (!String.IsNullOrEmpty(input) && input.All(char.IsDigit)) {
+                    intNum = Convert.ToInt32(input);
+                    // checks if the input is valid, for the temperature input, an empty option set is used hence the or
+                    if (viable.Contains(intNum) || _options.Count == 0) {
+                        return intNum;
+                    }
+                } else {
+                    Console.WriteLine("Please enter a valid input");
                 }
-
-                Console.WriteLine("Please enter a valid input");
             }
 
-            // value bit is so it can be returned as an int rather than an int?
-            return returnVal.Value;
+            // this has to be here because otherwise "not all codepaths return a value" but they do i'm telling you
+            return 0;
         }
     }
 }
